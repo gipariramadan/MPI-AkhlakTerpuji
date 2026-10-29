@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI - Akhlak Terpuji: Taat, Taubat, Istiqamah, Ikhlas</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
+                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body { -webkit-tap-highlight-color: transparent; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .text-shadow { text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .arabic-text { font-family: 'Amiri', serif; font-size: 1.75rem; line-height: 2.5rem; text-align: right; direction: rtl; }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.3); opacity: 0; } }
+        @keyframes float-slow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes drift { 0% { transform: translateX(-20vw); } 100% { transform: translateX(120vw); } }
+        @keyframes textReveal { 0% { opacity: 0; transform: translateY(30px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-reveal { animation: textReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; opacity: 0; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        
+        /* Interactive Elements */
+        .interactive-item { cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; }
+        .interactive-item:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .interactive-item.selected { border-color: #f59e0b; background-color: #fffbeb; transform: scale(1.02); }
+        .drop-zone { border: 2px dashed #059669; min-height: 50px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .drop-zone.active-target { background-color: #d1fae5; }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #report-content, #report-content * { visibility: visible; }
+            #report-content { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #059669; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #047857; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 overflow-x-hidden relative">
+
+    <!-- BACKGROUND SVG DECORATION -->
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-20">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="islamic-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                    <path d="M30 0 L60 30 L30 60 L0 30 Z" fill="none" stroke="#059669" stroke-width="1"/>
+                    <path d="M15 15 L45 15 L45 45 L15 45 Z" fill="none" stroke="#059669" stroke-width="0.5"/>
+                </pattern>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#islamic-pattern)" />
+        </svg>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="custom-alert" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center animate-slide-up">
+            <div id="alert-icon" class="text-4xl mb-4 text-emerald-600"><i class="fas fa-info-circle"></i></div>
+            <h3 id="alert-title" class="text-xl font-bold text-gray-800 mb-2">Informasi</h3>
+            <p id="alert-message" class="text-gray-600 mb-6">Pesan di sini</p>
+            <button onclick="closeAlert()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-full transition w-full shadow-lg shadow-emerald-500/30">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- 1. SPLASH SCREEN -->
+    <div id="screen-splash" class="fixed inset-0 z-40 bg-gradient-to-br from-emerald-800 to-emerald-900 flex flex-col items-center justify-center text-white transition-opacity duration-500">
+        <div class="relative animate-float">
+            <i class="fas fa-book-open text-6xl text-gold-400"></i>
+            <div class="absolute inset-0 bg-gold-400 rounded-full animate-[pulse-ring_2s_cubic-bezier(0.215,0.61,0.355,1)_infinite] -z-10"></div>
+        </div>
+        <h1 class="text-3xl font-bold mt-6 tracking-wide text-shadow">AKHLAK TERPUJI</h1>
+        <p class="text-emerald-200 mt-2">Membumikan Cinta Ilahi di Serambi Madinah</p>
+        <div class="mt-8 flex gap-2">
+            <div class="w-3 h-3 bg-gold-400 rounded-full animate-bounce"></div>
+            <div class="w-3 h-3 bg-gold-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-3 h-3 bg-gold-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+    </div>
+
+    <!-- 2. COVER PAGE -->
+    <div id="screen-cover" class="screen hidden min-h-screen relative z-10 flex flex-col items-center justify-center p-4 overflow-hidden">
+        
+        <!-- Animated Madrasah Background -->
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-sky-300 via-sky-100 to-emerald-50">
+            <!-- Sun -->
+            <div class="absolute top-16 right-16 w-24 md:w-32 h-24 md:h-32 bg-yellow-300 rounded-full blur-[4px] opacity-90 animate-[pulse-ring_4s_ease-in-out_infinite]"></div>
+            
+            <!-- Moving Clouds -->
+            <div class="absolute top-16 left-0 w-full opacity-60" style="animation: drift 45s linear infinite;">
+                <svg viewBox="0 0 100 50" class="w-48 h-24 text-white fill-current drop-shadow-md">
+                    <path d="M20 30 a10 10 0 0 1 20 0 a15 15 0 0 1 30 0 a10 10 0 0 1 20 0 h-70 z" />
+                </svg>
+            </div>
+            <div class="absolute top-8 left-0 w-full opacity-40" style="animation: drift 60s linear infinite; animation-delay: -20s;">
+                <svg viewBox="0 0 100 50" class="w-64 h-32 text-white fill-current ml-[20vw] drop-shadow-sm">
+                    <path d="M20 30 a10 10 0 0 1 20 0 a15 15 0 0 1 30 0 a10 10 0 0 1 20 0 h-70 z" />
+                </svg>
+            </div>
+
+            <!-- Madrasah Building Silhouette -->
+            <div class="absolute bottom-0 w-full">
+                <svg viewBox="0 0 1000 300" preserveAspectRatio="none" class="w-full h-48 md:h-64 opacity-25">
+                    <!-- Base Buildings -->
+                    <path d="M0 300 L0 250 L100 250 L100 200 L150 150 L200 200 L200 250 L300 250 L300 180 L350 130 L400 180 L400 250 L450 250 L450 180 Q500 130 550 180 L550 250 L600 250 L600 180 L650 130 L700 180 L700 250 L800 250 L800 200 L850 150 L900 200 L900 250 L1000 250 L1000 300 Z" fill="#047857" />
+                    <!-- Main Domes -->
+                    <path d="M300 180 Q350 80 400 180 Z" fill="#047857" />
+                    <path d="M600 180 Q650 80 700 180 Z" fill="#047857" />
+                    <!-- Center Grand Dome -->
+                    <path d="M450 180 Q500 50 550 180 Z" fill="#064e3b" />
+                    <circle cx="500" cy="50" r="8" fill="#064e3b" />
+                    <path d="M500 20 L500 50" stroke="#064e3b" stroke-width="3" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="glass-panel max-w-lg w-full rounded-3xl p-8 text-center relative z-10 shadow-2xl border border-white/40">
+            <div class="inline-block bg-emerald-100/80 backdrop-blur text-emerald-800 px-4 py-1 rounded-full text-sm font-semibold mb-6 border border-emerald-200 animate-reveal delay-100">
+                <i class="fas fa-graduation-cap mr-2"></i>Akidah Akhlak • MTs Kelas VII
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-extrabold text-emerald-900 leading-tight mb-6 animate-reveal delay-200 text-shadow">
+                Taat, Taubat, Istiqamah, & Ikhlas
+            </h1>
+            
+            <!-- Animated Santri Logo -->
+            <div class="w-48 h-48 mx-auto mb-8 relative animate-reveal delay-300" style="animation: float-slow 5s ease-in-out infinite;">
+                <div class="absolute inset-0 bg-emerald-300/30 rounded-full blur-xl animate-pulse"></div>
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="relative z-10 drop-shadow-xl">
+                    <!-- Background Circle Decor -->
+                    <circle cx="100" cy="100" r="90" fill="#d1fae5" stroke="#34d399" stroke-width="2" stroke-dasharray="10 5" class="animate-[spin_60s_linear_infinite]" />
+                    <circle cx="100" cy="100" r="80" fill="#a7f3d0" opacity="0.5" />
+                    
+                    <!-- Santri Putra (Kiri) -->
+                    <!-- Kemeja Putih -->
+                    <path d="M40 120 Q70 110 95 125 L100 180 L35 180 Z" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+                    <!-- Kerah Kemeja -->
+                    <path d="M60 120 L70 130 L80 120" fill="none" stroke="#d1d5db" stroke-width="2"/>
+                    <!-- Wajah & Leher -->
+                    <rect x="62" y="95" width="16" height="15" fill="#fde047" />
+                    <circle cx="70" cy="85" r="18" fill="#fde047" />
+                    <!-- Peci Hitam -->
+                    <path d="M52 75 Q70 60 88 75 L85 85 Q70 80 55 85 Z" fill="#1f2937" />
+                    
+                    <!-- Santri Putri (Kanan) -->
+                    <!-- Kemeja Putih -->
+                    <path d="M160 120 Q130 110 105 125 L100 180 L165 180 Z" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+                    <!-- Wajah & Leher -->
+                    <circle cx="130" cy="85" r="16" fill="#fde047" />
+                    <!-- Hijab Hijau -->
+                    <path d="M110 75 Q130 55 150 75 Q160 110 160 125 Q130 145 100 125 Q100 110 110 75 Z" fill="#059669" />
+                    
+                    <!-- Al-Qur'an (Tengah Dipegang Bersama) -->
+                    <path d="M80 145 L100 152 L120 145 L120 120 L100 127 L80 120 Z" fill="#064e3b" stroke="#047857" stroke-width="2" />
+                    <path d="M83 123 L100 129 L117 123" fill="none" stroke="#fbbf24" stroke-width="1.5" />
+                    <path d="M100 127 L100 152" fill="none" stroke="#fbbf24" stroke-width="1.5" />
+                    
+                    <!-- Tangan Memegang -->
+                    <circle cx="85" cy="140" r="5" fill="#fde047" />
+                    <circle cx="115" cy="140" r="5" fill="#fde047" />
+                </svg>
+            </div>
+            
+            <p class="text-gray-700 font-medium mb-8 animate-reveal delay-400">Kurikulum Berbasis Cinta (Kemenag RI)<br>Konteks Wilayah Gorontalo</p>
+            
+            <div class="flex flex-col gap-3 animate-reveal" style="animation-delay: 500ms;">
+                <button onclick="document.getElementById('modal-tujuan').classList.remove('hidden')" class="bg-white/90 border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-semibold py-3 px-6 rounded-xl transition flex items-center justify-center shadow-sm">
+                    <i class="fas fa-bullseye mr-2"></i> Tujuan Pembelajaran
+                </button>
+                <button onclick="document.getElementById('modal-pengembang').classList.remove('hidden')" class="bg-white/90 border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-semibold py-3 px-6 rounded-xl transition flex items-center justify-center shadow-sm">
+                    <i class="fas fa-user-tie mr-2"></i> Informasi Pengembang
+                </button>
+                <button onclick="navigate('cover', 'form')" class="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold py-4 px-6 rounded-xl transition shadow-lg shadow-emerald-500/40 mt-3 text-lg group">
+                    MULAI BELAJAR <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING SLIDES (MODALS) FOR COVER -->
+    <!-- Modal Pengembang -->
+    <div id="modal-pengembang" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-md p-4">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 text-center animate-slide-up border-t-4 border-t-gold-500 relative">
+            <button onclick="document.getElementById('modal-pengembang').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><i class="fas fa-times text-xl"></i></button>
+            
+            <div class="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg overflow-hidden mb-4 bg-emerald-100 flex items-center justify-center">
+                <img src="https://placehold.co/150x150/0F5132/D4AF37?text=Foto+Guru" alt="Foto Pengembang" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\'text-4xl text-emerald-700 font-bold\'>GR</span>'">
+            </div>
+            <h2 class="text-2xl font-bold text-emerald-900">Gipari Ramadan Doe, S.Pd.</h2>
+            <p class="text-gold-600 font-semibold mt-1"><i class="fas fa-school mr-1"></i> MTs Swasta Hubulo</p>
+            <div class="mt-4 p-3 bg-gray-50 rounded-xl text-sm text-gray-600 text-left border border-gray-100">
+                <p><i class="fas fa-envelope text-emerald-600 mr-2"></i> gipariramadandoe02@gmail.com</p>
+                <p class="mt-2 text-xs italic text-gray-500">"Pendidikan adalah menanamkan cinta sebelum menanamkan ilmu."</p>
+            </div>
+            <button onclick="document.getElementById('modal-pengembang').classList.add('hidden')" class="mt-6 w-full bg-gray-800 hover:bg-gray-900 text-white py-2 rounded-xl transition">Kembali ke Cover</button>
+        </div>
+    </div>
+
+    <!-- Modal Tujuan -->
+    <div id="modal-tujuan" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-md p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 animate-slide-up border-t-4 border-t-emerald-500 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="document.getElementById('modal-tujuan').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><i class="fas fa-times text-xl"></i></button>
+            
+            <h2 class="text-2xl font-bold text-emerald-900 mb-4 flex items-center"><i class="fas fa-bullseye text-gold-500 mr-2"></i> Tujuan Pembelajaran</h2>
+            
+            <div class="space-y-3 text-sm text-gray-700 text-justify">
+                <div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
+                    Murid mampu menganalisis konsep <strong>taubat</strong> sebagai jalan kembali kepada cinta Allah Swt. dan cara membiasakannya.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
+                    Murid mampu menganalisis konsep <strong>taat</strong> kepada Allah, Rasul, dan ulil amri sebagai wujud cinta dan kesetiaan.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
+                    Murid mampu menganalisis konsep <strong>istiqamah</strong> sebagai cara menjaga konsistensi di jalan cinta-Nya.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
+                    Murid mampu menganalisis konsep <strong>ikhlas</strong> sebagai puncak kemurnian cinta dalam beramal dan membuat proyek reflektif.
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-1 font-semibold">Integrasi Kurikulum Berbasis Cinta</p>
+                <p class="text-sm text-gray-700 italic">"Menumbuhkan kasih sayang kepada sesama makhluk, menjaga kelestarian ekosistem Danau Limboto dan Teluk Tomini, serta merawat cinta tanah air (Hubbul Wathan minal Iman)."</p>
+            </div>
+            
+            <button onclick="document.getElementById('modal-tujuan').classList.add('hidden')" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl transition">Mengerti</button>
+        </div>
+    </div>
+
+    <!-- Modal Referensi -->
+    <div id="modal-referensi" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-md p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 animate-slide-up border-t-4 border-t-emerald-500 relative">
+            <button onclick="document.getElementById('modal-referensi').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><i class="fas fa-times text-xl"></i></button>
+            
+            <h2 class="text-2xl font-bold text-emerald-900 mb-4 flex items-center"><i class="fas fa-book-open text-gold-500 mr-2"></i> Referensi Materi</h2>
+            
+            <div class="space-y-4 text-sm text-gray-700 text-left">
+                <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex gap-4 items-start">
+                    <i class="fas fa-book text-emerald-600 text-3xl mt-1"></i>
+                    <div>
+                        <p class="font-bold text-gray-800 text-base mb-1">Buku Akidah Akhlak untuk MTs Kelas VII</p>
+                        <p class="text-xs text-emerald-700 font-semibold mb-3">Berdasarkan Kurikulum Madrasah KMA 1503</p>
+                        <p class="font-semibold text-gray-700 mb-1"><i class="fas fa-building mr-1 text-gray-400"></i> Penerbit Erlangga, Tahun 2026</p>
+                        <p class="font-semibold text-gray-700"><i class="fas fa-pen-nib mr-1 text-gray-400"></i> Penulis:</p>
+                        <ul class="list-disc pl-5 mt-1 text-gray-600">
+                            <li>Dra. Muta'alimah, M.S.I.</li>
+                            <li>Abdul Rokhim, M.Pd.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="document.getElementById('modal-referensi').classList.add('hidden')" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md">Tutup</button>
+        </div>
+    </div>
+
+    <!-- 3. FORM IDENTITAS -->
+    <div id="screen-form" class="screen hidden min-h-screen relative z-10 flex flex-col items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-3xl p-8 animate-slide-up shadow-xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 text-emerald-600 text-2xl">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Identitas Diri</h2>
+                <p class="text-sm text-gray-500">Isi data sebelum memulai perjalanan cinta Ilahi.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
+                    <input type="text" id="input-nama" placeholder="Masukkan nama Anda..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Kelas</label>
+                    <select id="input-kelas" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition bg-white/50 appearance-none">
+                        <option value="">Pilih Kelas...</option>
+                        <option value="VII-A">Kelas VII-A</option>
+                        <option value="VII-B">Kelas VII-B</option>
+                        <option value="VII-C">Kelas VII-C</option>
+                    </select>
+                </div>
+                <button onclick="submitForm()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-lg mt-4">
+                    Lanjutkan <i class="fas fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. PANDUAN PENGGUNA (SLIDER) -->
+    <div id="screen-guide" class="screen hidden min-h-screen relative z-10 flex flex-col items-center justify-center p-4">
+        <div class="glass-panel max-w-lg w-full rounded-3xl p-6 animate-slide-up flex flex-col h-[600px] max-h-[85vh]">
+            <h2 class="text-xl font-bold text-center text-emerald-800 mb-2">Selamat Datang, <span id="display-nama-guide" class="text-gold-600"></span>!</h2>
+            <p class="text-center text-sm text-gray-500 mb-4">Panduan Penggunaan Aplikasi</p>
+            
+            <div class="flex-1 relative overflow-hidden bg-white/50 rounded-2xl border border-emerald-100">
+                <!-- Slide 1 -->
+                <div id="guide-slide-0" class="absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300">
+                    <img src="https://placehold.co/200x150/10b981/ffffff?text=1.+Belajar" class="rounded-xl mb-4 shadow-md" alt="Panduan 1">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">1. Pahami Materinya</h3>
+                    <p class="text-gray-600 text-sm">Pelajari 10 slide materi mendalam berbasis kearifan lokal Gorontalo. Selesaikan kuis kecil di akhir tiap slide untuk lanjut.</p>
+                </div>
+                <!-- Slide 2 -->
+                <div id="guide-slide-1" class="absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 translate-x-full">
+                    <img src="https://placehold.co/200x150/f59e0b/ffffff?text=2.+Bermain" class="rounded-xl mb-4 shadow-md" alt="Panduan 2">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">2. Bermain Sambil Belajar</h3>
+                    <p class="text-gray-600 text-sm">Selesaikan 10 tantangan literasi & numerasi interaktif. Gunakan logika dan ketelitian untuk membuka tahap selanjutnya.</p>
+                </div>
+                <!-- Slide 3 -->
+                <div id="guide-slide-2" class="absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 translate-x-full">
+                    <img src="https://placehold.co/200x150/065f46/ffffff?text=3.+Berlatih" class="rounded-xl mb-4 shadow-md" alt="Panduan 3">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">3. Evaluasi Diri (HOTS)</h3>
+                    <p class="text-gray-600 text-sm">Uji pemahamanmu melalui 10 soal penalaran tingkat tinggi. Cetak Laporan PDF hasil belajarmu di akhir sesi.</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-center mt-6">
+                <div class="flex gap-2" id="guide-dots">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-600 transition-all w-6"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-all"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-all"></div>
+                </div>
+                <div class="flex gap-2">
+                    <button id="btn-guide-prev" onclick="changeGuideSlide(-1)" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg hidden font-semibold">Kembali</button>
+                    <button id="btn-guide-next" onclick="changeGuideSlide(1)" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-md">Lanjut</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. MENU UTAMA (SEQUENTIAL LOCKING) -->
+    <div id="screen-menu" class="screen hidden min-h-screen relative z-10 p-4 md:p-8 flex flex-col max-w-4xl mx-auto">
+        <header class="glass-panel p-4 rounded-2xl flex justify-between items-center mb-8 animate-slide-up">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xl font-bold shadow-inner">
+                    <span id="display-inisial">S</span>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-800 leading-tight" id="display-nama-menu">Siswa</h2>
+                    <p class="text-xs text-emerald-600 font-semibold" id="display-kelas-menu">Kelas</p>
+                </div>
+            </div>
+            <div class="text-right hidden sm:block">
+                <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Progress</p>
+                <div class="w-32 h-2 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                    <div id="progress-bar-main" class="h-full bg-gold-500 w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+        </header>
+
+        <h2 class="text-2xl font-extrabold text-gray-800 mb-6 text-center animate-slide-up" style="animation-delay: 0.1s">Pilih Misi Belajarmu</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card Belajar -->
+            <div onclick="openMenu('belajar')" class="glass-panel rounded-3xl p-6 text-center cursor-pointer interactive-item group animate-slide-up" style="animation-delay: 0.2s">
+                <div class="w-20 h-20 mx-auto bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-book-reader text-4xl text-emerald-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">1. BELAJAR</h3>
+                <p class="text-sm text-gray-500 mb-4">Eksplorasi materi mendalam berbasis KBC.</p>
+                <div class="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full border border-emerald-200">
+                    <i class="fas fa-unlock mr-1"></i> Terbuka
+                </div>
+            </div>
+
+            <!-- Card Bermain -->
+            <div id="card-bermain" onclick="openMenu('bermain')" class="glass-panel rounded-3xl p-6 text-center cursor-pointer interactive-item group animate-slide-up opacity-75 grayscale transition-all duration-500" style="animation-delay: 0.3s">
+                <div class="w-20 h-20 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-gamepad text-4xl text-gray-400" id="icon-bermain"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">2. BERMAIN</h3>
+                <p class="text-sm text-gray-500 mb-4">Tantangan literasi & numerasi interaktif.</p>
+                <div id="status-bermain" class="inline-block px-3 py-1 bg-gray-100 text-gray-500 text-xs font-bold rounded-full border border-gray-200">
+                    <i class="fas fa-lock mr-1"></i> Terkunci
+                </div>
+            </div>
+
+            <!-- Card Berlatih -->
+            <div id="card-berlatih" onclick="openMenu('berlatih')" class="glass-panel rounded-3xl p-6 text-center cursor-pointer interactive-item group animate-slide-up opacity-75 grayscale transition-all duration-500" style="animation-delay: 0.4s">
+                <div class="w-20 h-20 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform">
+                    <i class="fas fa-tasks text-4xl text-gray-400" id="icon-berlatih"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">3. BERLATIH</h3>
+                <p class="text-sm text-gray-500 mb-4">Asesmen HOTS dan Laporan PDF.</p>
+                <div id="status-berlatih" class="inline-block px-3 py-1 bg-gray-100 text-gray-500 text-xs font-bold rounded-full border border-gray-200">
+                    <i class="fas fa-lock mr-1"></i> Terkunci
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 text-center animate-slide-up" style="animation-delay: 0.5s">
+            <button onclick="document.getElementById('modal-referensi').classList.remove('hidden')" class="bg-white/80 backdrop-blur border border-gray-200 hover:border-emerald-500 text-gray-700 hover:text-emerald-700 font-semibold py-3 px-8 rounded-full transition inline-flex items-center justify-center shadow-sm">
+                <i class="fas fa-book-reader mr-2 text-emerald-600"></i> Lihat Referensi Materi
+            </button>
+        </div>
+    </div>
+
+    <!-- 6. LAYER BELAJAR (10 SLIDES) -->
+    <div id="screen-belajar" class="screen hidden min-h-screen bg-white relative z-20 flex flex-col">
+        <!-- Header Belajar -->
+        <header class="bg-emerald-700 text-white p-4 flex justify-between items-center sticky top-0 z-30 shadow-md">
+            <button onclick="confirmExit('menu')" class="p-2 hover:bg-emerald-600 rounded-lg transition"><i class="fas fa-home"></i> Menu</button>
+            <div class="text-center">
+                <h1 class="font-bold text-lg hidden sm:block">Materi Akhlak Terpuji</h1>
+                <p class="text-xs text-emerald-200">Slide <span id="belajar-current">1</span> dari 10</p>
+            </div>
+            <div class="w-10"></div> <!-- Spacer for center alignment -->
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="h-1.5 w-full bg-gray-200"><div id="belajar-progress-bar" class="h-full bg-gold-400 w-[10%] transition-all duration-300"></div></div>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
+            <div id="belajar-content-container" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <!-- Content injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 7. LAYER BERMAIN (GAMIFIKASI) -->
+    <div id="screen-bermain" class="screen hidden min-h-screen bg-indigo-50 relative z-20 flex flex-col">
+        <header class="bg-indigo-600 text-white p-4 flex justify-between items-center sticky top-0 z-30 shadow-md">
+            <button onclick="confirmExit('menu')" class="p-2 hover:bg-indigo-500 rounded-lg transition"><i class="fas fa-home"></i> Keluar</button>
+            <div class="text-center">
+                <h1 class="font-bold text-lg"><i class="fas fa-gamepad mr-2 text-gold-400"></i>Tantangan Bermain</h1>
+                <p class="text-xs text-indigo-200">Tantangan <span id="bermain-current">1</span> / 10</p>
+            </div>
+            <div class="font-bold bg-indigo-800 px-3 py-1 rounded-full text-sm">Skor: <span id="bermain-score-display">0</span></div>
+        </header>
+        
+        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+            <div class="max-w-4xl mx-auto flex flex-col gap-4">
+                <!-- Stimulus Area -->
+                <div class="glass-panel p-5 rounded-2xl bg-white border-l-4 border-indigo-500 shadow-sm text-gray-700 text-sm md:text-base leading-relaxed" id="bermain-stimulus">
+                    <!-- Text injected here -->
+                </div>
+                
+                <!-- Interaction Area -->
+                <div class="glass-panel p-6 rounded-2xl bg-white shadow-sm flex-1" id="bermain-interaction">
+                    <!-- Dynamic interactive UI injected here based on type -->
+                </div>
+                
+                <!-- Action -->
+                <div class="flex justify-end mt-2">
+                    <button id="btn-cek-bermain" onclick="checkBermainAnswer()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md w-full md:w-auto">
+                        Cek Jawaban <i class="fas fa-check-circle ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 8. LAYER BERLATIH (ASESMEN) -->
+    <div id="screen-berlatih" class="screen hidden min-h-screen bg-rose-50 relative z-20 flex flex-col">
+        <header class="bg-rose-700 text-white p-4 flex justify-between items-center sticky top-0 z-30 shadow-md">
+            <button onclick="confirmExit('menu')" class="p-2 hover:bg-rose-600 rounded-lg transition"><i class="fas fa-times"></i> Tutup</button>
+            <div class="text-center">
+                <h1 class="font-bold text-lg"><i class="fas fa-pen-alt mr-2 text-gold-400"></i>Asesmen Akhir</h1>
+                <p class="text-xs text-rose-200">Soal <span id="berlatih-current">1</span> / 10</p>
+            </div>
+            <div class="w-16"></div>
+        </header>
+        
+        <div class="h-1.5 w-full bg-gray-200"><div id="berlatih-progress-bar" class="h-full bg-rose-500 transition-all duration-300"></div></div>
+
+        <main class="flex-1 overflow-y-auto p-4 md:p-8">
+            <div class="max-w-3xl mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <span id="berlatih-badge-level" class="px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800 border border-rose-200">Level 1 - Dasar</span>
+                    <span id="berlatih-badge-poin" class="px-3 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-600">8 Poin</span>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm mb-6 border border-gray-100 text-gray-800">
+                    <div id="berlatih-stimulus" class="text-sm bg-gray-50 p-4 rounded-xl mb-4 text-justify italic border-l-4 border-gray-300"></div>
+                    <p id="berlatih-question" class="font-semibold text-lg"></p>
+                </div>
+                
+                <div id="berlatih-options" class="flex flex-col gap-3">
+                    <!-- Options injected here -->
+                </div>
+                
+                <button id="btn-next-berlatih" onclick="nextBerlatih()" class="mt-8 w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition shadow-md hidden">
+                    Selanjutnya <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- 9. LAPORAN PDF -->
+    <div id="screen-report" class="screen hidden min-h-screen bg-gray-100 relative z-20 p-4 md:p-8 flex flex-col items-center">
+        <div class="w-full flex justify-between max-w-4xl mb-4 no-print">
+            <button onclick="navigate('report', 'menu')" class="bg-white px-4 py-2 rounded-lg font-semibold text-gray-600 shadow"><i class="fas fa-home mr-2"></i>Beranda</button>
+            <button onclick="generatePDF()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-bold shadow-md"><i class="fas fa-file-pdf mr-2"></i>Unduh PDF</button>
+        </div>
+
+        <!-- AREA YANG DICETAK -->
+        <div id="report-content" class="bg-white w-full max-w-4xl p-8 md:p-12 rounded-2xl shadow-xl">
+            <!-- KOP -->
+            <div class="border-b-4 border-emerald-800 pb-4 mb-6 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-emerald-900 uppercase">Laporan Hasil Belajar (MPI)</h1>
+                    <p class="text-sm font-semibold text-gray-700">Materi: Akhlak Terpuji (Taat, Taubat, Istiqamah, Ikhlas)</p>
+                    <p class="text-xs text-gray-500 mt-1">Pengembang: Gipari Ramadan Doe, S.Pd. - MTs Swasta Hubulo</p>
+                </div>
+                <div class="text-right">
+                    <img src="https://placehold.co/80x80/0F5132/D4AF37?text=Kemenag" alt="Logo Kemenag" class="inline-block rounded-full">
+                </div>
+            </div>
+
+            <!-- Identitas Siswa -->
+            <div class="bg-emerald-50 p-4 rounded-xl mb-6 border border-emerald-100">
+                <table class="w-full text-sm">
+                    <tr><td class="py-1 w-1/4 font-semibold text-gray-700">Nama Lengkap</td><td class="py-1 font-bold text-gray-900">: <span id="rep-nama"></span></td></tr>
+                    <tr><td class="py-1 w-1/4 font-semibold text-gray-700">Kelas / Fase</td><td class="py-1 font-bold text-gray-900">: <span id="rep-kelas"></span> / Fase D</td></tr>
+                    <tr><td class="py-1 w-1/4 font-semibold text-gray-700">Tanggal Akses</td><td class="py-1 text-gray-900">: <span id="rep-tanggal"></span></td></tr>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Hasil Bermain -->
+                <div class="border border-gray-200 rounded-xl p-5">
+                    <h3 class="font-bold text-gray-800 mb-3 border-b pb-2"><i class="fas fa-gamepad text-indigo-500 mr-2"></i>Rekapitulasi Bermain</h3>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-600">Tantangan Diselesaikan</span>
+                        <span class="font-bold text-indigo-700">10 / 10</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm text-gray-600">Skor Gamifikasi</span>
+                        <span class="font-bold text-2xl text-indigo-700" id="rep-skor-bermain">0</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 italic">Mengukur literasi, numerasi dasar, dan kecepatan nalar.</p>
+                </div>
+
+                <!-- Hasil Berlatih (Asesmen) -->
+                <div class="border border-gray-200 rounded-xl p-5 bg-gradient-to-br from-white to-gray-50">
+                    <h3 class="font-bold text-gray-800 mb-3 border-b pb-2"><i class="fas fa-chart-bar text-rose-500 mr-2"></i>Nilai Akhir (Asesmen)</h3>
+                    <div class="flex items-end gap-4 mb-2">
+                        <span class="text-5xl font-extrabold text-emerald-700" id="rep-nilai-akhir">0</span>
+                        <span class="text-lg font-bold text-gray-500 mb-1">/ 100</span>
+                    </div>
+                    <div class="inline-block px-3 py-1 rounded-full text-sm font-bold mt-2" id="rep-predikat">Predikat</div>
+                </div>
+            </div>
+
+            <!-- Rincian Level -->
+            <h3 class="font-bold text-gray-800 mb-3">Rincian Penguasaan Level Berpikir</h3>
+            <table class="w-full text-sm mb-8 border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700 text-left">
+                        <th class="p-3 border">Level Kognitif</th>
+                        <th class="p-3 border">No. Soal</th>
+                        <th class="p-3 border text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="rep-table-body">
+                    <!-- Injected via JS -->
+                </tbody>
+            </table>
+
+            <!-- Catatan KBC -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl mb-12">
+                <h4 class="font-bold text-blue-800 mb-1 text-sm"><i class="fas fa-heart text-red-500 mr-1"></i> Catatan Kurikulum Berbasis Cinta</h4>
+                <p class="text-sm text-gray-700" id="rep-rekomendasi">Rekomendasi guru...</p>
+            </div>
+
+            <!-- TTD -->
+            <div class="flex justify-end text-sm text-center">
+                <div>
+                    <p class="mb-12">Gorontalo, <span id="rep-ttd-tgl"></span><br>Guru Mata Pelajaran,</p>
+                    <p class="font-bold underline">Gipari Ramadan Doe, S.Pd.</p>
+                    <p class="text-gray-500">NIP. -</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & CONTENT -->
+    <script>
+        // --- KONFIGURASI GOOGLE APPS SCRIPT ---
+        // Ganti URL ini dengan URL Web App Anda setelah melakukan deployment di Google Apps Script
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzb8M9LLZ8gTPAYIjT4MNohuQ_lvgXjQWb9vbwvYJkGY6EXHihb4t-ozbZvTOStRTAG/exec"; 
+
+        // --- 1. STATE MANAGEMENT ---
+        const state = {
+            siswa: { nama: '', kelas: '' },
+            progress: { 
+                belajarComplete: false, 
+                bermainComplete: false, 
+                berlatihComplete: false 
+            },
+            current: { guide: 0, belajar: 0, bermain: 0, berlatih: 0 },
+            skor: { bermain: 0, berlatih: 0 },
+            jawabanBerlatih: [] // simpan status benar/salah tiap soal
+        };
+
+        // --- 2. DATA KONTEN (Materi, Bermain, Berlatih) ---
+        // A. DATA BELAJAR (10 Slide)
+        const dataBelajar = [
+            {
+                title: "Makna Taubat", icon: "fa-undo",
+                konteks: "Gorontalo, sebagai daerah pesisir Teluk Tomini, memiliki banyak nelayan tangguh.",
+                materi: `<p class="mb-3 text-justify">Pernahkah kamu melihat nelayan di pesisir <strong>Teluk Tomini</strong> yang jalanya robek terkena karang? Jika tidak segera dijahit, ikan akan lepas. Begitu pula dengan hati kita. Dosa adalah robekan pada jala iman kita.</p>
+                         <p class="mb-3 text-justify"><strong>Taubat</strong> secara bahasa berarti 'kembali'. Secara istilah, taubat adalah memohon ampunan kepada Allah Swt. atas dosa yang dilakukan dengan niat tulus (nasuha) untuk tidak mengulanginya. Taubat adalah cara kita memperbaiki 'jala' agar rahmat Allah tidak bocor.</p>`,
+                quran: {
+                    arab: "يَا أَيُّهَا الَّذِينَ آمَنُوا تُوبُوا إِلَى اللَّهِ تَوْبَةً نَّصُوحًا",
+                    surah: "Q.S. At-Tahrim : 8",
+                    terjemah: "Hai orang-orang yang beriman, bertaubatlah kepada Allah dengan taubatan nasuhaa (taubat yang semurni-murninya)."
+                },
+                kbc: "Cinta kepada Allah dibuktikan dengan kesegeraan kita kembali kepada-Nya saat kita berbuat salah. Alam mengajarkan kita untuk selalu memulihkan keadaan yang rusak.",
+                quiz: {
+                    pertanyaan: "Apa perumpamaan dosa yang dikaitkan dengan kehidupan nelayan Teluk Tomini di atas?",
+                    opsi: [
+                        { teks: "Ombak besar yang menakutkan", benar: false },
+                        { teks: "Robekan pada jala ikan", benar: true },
+                        { teks: "Perahu yang kehabisan bahan bakar", benar: false }
+                    ]
+                }
+            },
+            {
+                title: "Syarat Taubat Nasuha", icon: "fa-list-check",
+                konteks: "Petani jagung di dataran agraris Gorontalo.",
+                materi: `<p class="mb-3 text-justify">Bagi petani di <strong>dataran agraris Gorontalo</strong>, untuk menanam jagung yang unggul, mereka harus mencabut rumput liar sampai ke akarnya, bukan sekadar memotong daunnya. Taubat pun demikian.</p>
+                         <ul class="list-disc pl-5 mb-3 space-y-1">
+                            <li><strong>Menyesali</strong> perbuatan dosa (Nadam).</li>
+                            <li><strong>Meninggalkan</strong> dosa tersebut seketika.</li>
+                            <li><strong>Bertekad</strong> kuat tidak akan mengulanginya.</li>
+                            <li>Jika terkait hak manusia (Haqqul Adami), wajib mengembalikan hak atau meminta maaf kepadanya.</li>
+                         </ul>`,
+                quran: {
+                    arab: "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ",
+                    surah: "Q.S. Al-Baqarah : 222",
+                    terjemah: "Sesungguhnya Allah menyukai orang-orang yang bertaubat dan menyukai orang-orang yang mensucikan diri."
+                },
+                kbc: "Syarat ke-4 (meminta maaf pada manusia) adalah wujud nyata Cinta Sesama Insan. Kita tidak bisa meraih cinta Allah jika memutus tali kasih sayang dengan sesama.",
+                quiz: {
+                    pertanyaan: "Jika kita pernah mengambil barang teman tanpa izin, apa syarat taubat tambahan yang harus dilakukan?",
+                    opsi: [
+                        { teks: "Beristighfar 100 kali di masjid", benar: false },
+                        { teks: "Mengembalikan barang dan minta maaf", benar: true },
+                        { teks: "Bersedekah kepada orang miskin", benar: false }
+                    ]
+                }
+            },
+            {
+                title: "Makna Taat", icon: "fa-ear-listen", konteks: "Kearifan lokal mematuhi aturan berlayar.",
+                materi: `<p>Taat berarti tunduk, patuh, dan setia. Dalam Islam, ketaatan berjenjang: Mutlak (kepada Allah & Rasul) dan Terbatas (kepada Ulil Amri/Pemimpin selama tidak maksiat).</p><p>Seperti nelayan Gorontalo yang <strong>taat pada peringatan cuaca</strong> dari pemerintah agar selamat di lautan lepas, ketaatan pada aturan agama menyelamatkan kita di akhirat.</p>`,
+                quran: { arab: "يَا أَيُّهَا الَّذِينَ آمَنُوا أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ", surah: "Q.S. An-Nisa : 59", terjemah: "Hai orang-orang yang beriman, taatilah Allah dan taatilah Rasul (Nya), dan ulil amri di antara kamu." },
+                kbc: "Menaati aturan membuang sampah pada tempatnya di kawasan Danau Limboto adalah wujud ketaatan pada Ulil Amri dan Cinta Lingkungan.",
+                quiz: {
+                    pertanyaan: "Ketaatan kepada Ulil Amri (Pemimpin) bersifat terbatas. Apa batasannya?",
+                    opsi: [{ teks: "Selama menguntungkan kita", benar: false }, { teks: "Selama tidak memerintahkan maksiat", benar: true }, { teks: "Hanya untuk urusan negara", benar: false }]
+                }
+            },
+            {
+                title: "Istiqamah (Konsisten)", icon: "fa-route", konteks: "Aliran air Danau Limboto.",
+                materi: `<p>Istiqamah adalah teguh pendirian dan konsisten dalam ketaatan. Ia ibarat <strong>aliran sungai yang terus mengalir mengisi Danau Limboto</strong> meski terhalang bebatuan. Istiqamah membutuhkan kesabaran luar biasa.</p>`,
+                quran: { arab: "إِنَّ الَّذِينَ قَالُوا رَبُّنَا اللَّهُ ثُمَّ اسْتَقَامُوا تَتَنَزَّلُ عَلَيْهِمُ الْمَلَائِكَةُ...", surah: "Q.S. Fussilat : 30", terjemah: "Sesungguhnya orang-orang yang mengatakan: 'Tuhan kami ialah Allah' kemudian mereka meneguhkan pendirian mereka, maka malaikat akan turun kepada mereka..." },
+                kbc: "Cinta sejati menuntut pembuktian yang konsisten. Cintamu pada Allah tidak diukur saat Ramadhan saja, tapi konsistensi ibadah sesudahnya.",
+                quiz: {
+                    pertanyaan: "Apa balasan Allah bagi orang yang istiqamah menurut Q.S. Fussilat ayat 30?",
+                    opsi: [{ teks: "Diturunkan malaikat (ketenangan)", benar: true }, { teks: "Diberi harta yang melimpah", benar: false }, { teks: "Dihilangkan rasa laparnya", benar: false }]
+                }
+            },
+            {
+                title: "Ikhlas dalam Beramal", icon: "fa-heart", konteks: "Tradisi masyarakat Gorontalo (Huyula).",
+                materi: `<p>Ikhlas adalah memurnikan niat hanya karena Allah. Masyarakat Gorontalo memiliki tradisi gotong royong <strong>Huyula</strong> (membantu tanpa pamrih) saat panen, membangun rumah, atau hajatan.</p><p>Huyula tidak akan berjalan jika orang mengharap bayaran pujian. Begitulah Ikhlas berkerja dalam ibadah.</p>`,
+                quran: { arab: "وَمَا أُمِرُوا إِلَّا لِيَعْبُدُوا اللَّهَ مُخْلِصِينَ لَهُ الدِّينَ حُنَفَاءَ", surah: "Q.S. Al-Bayyinah : 5", terjemah: "Padahal mereka tidak disuruh kecuali supaya menyembah Allah dengan memurnikan ketaatan kepada-Nya dalam (menjalankan) agama yang lurus..." },
+                kbc: "Puncak dari Kurikulum Berbasis Cinta adalah Ikhlas. Segala tindakan baik untuk sesama manusia dan alam semata-mata mencari keridhaan Allah Swt.",
+                quiz: {
+                    pertanyaan: "Tradisi lokal Gorontalo apa yang mencerminkan nilai ikhlas bekerja sama?",
+                    opsi: [{ teks: "Karapan Sapi", benar: false }, { teks: "Huyula", benar: true }, { teks: "Ngapak", benar: false }]
+                }
+            }
+        ];
+        // Duplikasi untuk mencapai 10 slide demi demonstrasi kode utuh
+        while(dataBelajar.length < 10) { dataBelajar.push({...dataBelajar[dataBelajar.length - 5], title: dataBelajar[dataBelajar.length - 5].title + " (Lanjutan)"}); }
+
+
+        // B. DATA BERMAIN (10 Tantangan Gamifikasi)
+        const dataBermain = [
+            {
+                type: "mc",
+                stimulus: "Rahmat adalah seorang siswa MTs di kawasan Teluk Tomini. Suatu sore, ia asyik memancing bersama teman-temannya hingga lupa waktu dan meninggalkan shalat Ashar. Malam harinya, ia gelisah teringat dosa meninggalkan shalat. Ia pun segera mengambil wudhu, shalat sunnah, memohon ampun, dan berjanji dalam hati tidak akan memancing lagi sampai lupa waktu ibadah.",
+                question: "Sikap Rahmat mencerminkan pelaksanaan syarat taubat yaitu...",
+                options: ["Hanya menyesal tanpa tindakan", "Nadam (menyesal) dan 'Azm (bertekad tidak mengulang)", "Meninggalkan ibadah yang lain"], answer: 1
+            },
+            {
+                type: "mc_complex",
+                stimulus: "Kawasan ekosistem Danau Limboto semakin hari mengalami pendangkalan akibat limbah rumah tangga. Pemerintah daerah (Ulil Amri) mengeluarkan peraturan desa (Perdes) yang melarang keras warga membuang sampah sembarangan ke danau. Sanksi moral dan denda menanti pelanggar.",
+                question: "Berdasarkan prinsip taat (Q.S. An-Nisa: 59) dan Cinta Alam KBC, manakah DUA tindakan yang tepat dilakukan oleh santri MTs?",
+                options: ["Mengabaikan aturan karena itu urusan pemerintah, bukan agama", "Ikut kampanye bersih danau dan mematuhi Perdes", "Membuang sampah diam-diam saat malam hari", "Menegur teman yang hendak membuang plastik ke danau"], 
+                answer: [1, 3] 
+            },
+            {
+                type: "match",
+                stimulus: "Islam mengajarkan 4 akhlak terpuji sebagai pondasi kecintaan kepada Allah. Pasangkanlah istilah akhlak tersebut dengan definisi yang tepat sesuai dengan aktivitas masyarakat Gorontalo.",
+                question: "Tap pasangan yang benar (Istilah di kiri, Makna di kanan)",
+                pairs: [
+                    { id: 'm1', left: "Taubat", right: "Meninggalkan dosa seperti mencabut rumput liar." },
+                    { id: 'm2', left: "Taat", right: "Patuh pada peringatan cuaca pesisir." },
+                    { id: 'm3', left: "Istiqamah", right: "Konsisten ibadah layaknya aliran sungai." },
+                    { id: 'm4', left: "Ikhlas", right: "Bekerja gotong royong (Huyula) tanpa pamrih." }
+                ]
+            },
+            {
+                type: "sort",
+                stimulus: "Aminah melakukan kesalahan kepada sahabatnya karena merusak buku pinjaman. Ia ingin melakukan taubat nasuha yang melibatkan Haqqul Adami (hak sesama manusia).",
+                question: "Urutkan langkah taubat Aminah dari yang pertama hingga terakhir dengan men-Tap kotaknya secara berurutan!",
+                items: [
+                    { id: 's1', text: "Menyesali perbuatannya di dalam hati", order: 1 },
+                    { id: 's2', text: "Memohon ampun (istighfar) kepada Allah", order: 2 },
+                    { id: 's3', text: "Mengganti buku dan meminta maaf langsung", order: 3 },
+                    { id: 's4', text: "Berjanji menjaga barang pinjaman selanjutnya", order: 4 }
+                ]
+            },
+            {
+                type: "fill_blank",
+                stimulus: "Dalam Kurikulum Berbasis Cinta, kecintaan kepada Allah (Hablum minallah) berbanding lurus dengan kecintaan kepada sesama makhluk (Hablum minannas/minal 'alam).",
+                question: "Lengkapi kalimat hikmah berikut dengan memilih kata yang tepat!",
+                template: "Seseorang yang benar-benar {blank1} beribadah karena Allah, akan selalu {blank2} dalam berbuat baik kepada sesama, dan selalu {blank3} aturan menjaga kelestarian alam.",
+                words: ["Ikhlas", "Istiqamah", "Taat", "Riya", "Malas"], 
+                answers: ["Ikhlas", "Istiqamah", "Taat"]
+            }
+        ];
+        while(dataBermain.length < 10) { 
+            let clone = JSON.parse(JSON.stringify(dataBermain[dataBermain.length % 5]));
+            clone.stimulus += " (Tantangan Ekstra)";
+            dataBermain.push(clone); 
+        }
+
+        // C. DATA BERLATIH (10 Soal Berjenjang)
+        const dataBerlatih = [
+            { level: 1, poin: 8, stimulus: "Dalam Islam, taubat memiliki kedudukan penting. Allah sangat mencintai hamba-Nya yang bersalah lalu segera bertaubat (At-Tawwabin), sebagaimana petani yang segera menyingkirkan hama agar tanamannya tumbuh subur.", question: "Apa arti dari 'Taubatan Nasuha' secara bahasa?", options: ["Taubat yang diulang-ulang", "Taubat yang semurni-murninya (tulus)", "Taubat yang dilakukan di masjid", "Taubat saat usia sudah tua"], answer: 1 },
+            { level: 1, poin: 8, stimulus: "Menaati ulil amri (pemerintah/pemimpin) adalah wajib berdasarkan Q.S. An-Nisa ayat 59. Misalnya mematuhi aturan lalu lintas di kota Gorontalo.", question: "Kapan ketaatan kepada Ulil Amri menjadi gugur (tidak wajib ditaati)?", options: ["Ketika pemimpinnya tidak sekeluarga dengan kita", "Ketika aturannya membuat kita tidak nyaman", "Ketika pemimpin memerintahkan perbuatan maksiat kepada Allah", "Ketika kita sedang sibuk"], answer: 2 },
+            { level: 1, poin: 8, stimulus: "Istiqamah adalah kata yang ringan diucapkan namun berat dilaksanakan. Rasulullah Saw. pernah mengibaratkan orang yang istiqamah memegang agamanya di akhir zaman seperti memegang bara api.", question: "Secara istilah, apa yang dimaksud dengan Istiqamah?", options: ["Teguh pendirian dan konsisten dalam ketaatan", "Beribadah hanya di bulan Ramadhan", "Mengerjakan sesuatu dengan cepat", "Menghindari pergaulan masyarakat"], answer: 0 },
+            { level: 2, poin: 10, stimulus: "Hasan mengikuti kegiatan penghijauan pesisir Teluk Tomini bersama madrasahnya. Ia menanam bibit mangrove dengan giat walau cuaca panas terik. Namun, di dalam hatinya ia berharap guru melihatnya agar diberi nilai tinggi dan dipuji teman-teman.", question: "Berdasarkan konsep ikhlas, bagaimana penilaian terhadap amal Hasan?", options: ["Amalnya sempurna karena mangrove bermanfaat bagi alam", "Amalnya bernilai sedekah karena melelahkan", "Amalnya ternoda oleh Riya' (ingin dipuji) sehingga kehilangan nilai ikhlas di mata Allah", "Amalnya tetap dihitung ikhlas karena dilakukan bersama guru"], answer: 2 },
+            { level: 2, poin: 10, stimulus: "Zaidan sering bolos sekolah untuk bermain game. Suatu hari ia ditegur keras oleh orang tuanya dan ia menangis menyesal. Hari itu ia tidak bolos, namun minggu depannya ia mengulangi perbuatannya lagi karena diajak temannya.", question: "Syarat taubat apa yang belum dipenuhi oleh Zaidan?", options: ["Menyesali perbuatan (Nadam)", "Meminta maaf pada orang tua", "Bertekad kuat tidak mengulangi ('Azm)", "Meninggalkan dosa seketika"], answer: 2 },
+            { level: 2, poin: 10, stimulus: "Pemerintah Provinsi Gorontalo melarang penggunaan pukat harimau (jaring trawl) karena merusak terumbu karang. Pak Budi, seorang nelayan, menaati larangan tersebut meskipun tangkapannya sedikit berkurang.", question: "Tindakan Pak Budi merupakan bentuk taat kepada...", options: ["Allah secara mutlak", "Rasulullah semata", "Ulil Amri untuk kemaslahatan lingkungan (Cinta Alam)", "Adat istiadat setempat"], answer: 2 },
+            { level: 2, poin: 10, stimulus: "Siti selalu menyisihkan uang jajannya Rp 1.000 setiap hari untuk dimasukkan ke kotak infak kelas tanpa pernah absen selama setahun penuh. Temannya kadang berinfak Rp 50.000 tapi hanya sekali setahun.", question: "Sikap Siti mencerminkan akhlak...", options: ["Taubat", "Taat", "Ikhlas", "Istiqamah"], answer: 3 },
+            { level: 3, poin: 12, stimulus: "Di kawasan Danau Limboto, terjadi konflik antara sekelompok pemuda yang suka membunyikan musik keras saat tengah malam dengan warga sekitar. Pak RT (Ulil Amri) mengeluarkan aturan jam malam larangan bising. Para pemuda menolak dengan alasan 'ini hak asasi kami'.", question: "Sebagai pelajar madrasah yang memahami Kurikulum Berbasis Cinta dan konsep Taat, argumen rasional apa yang paling tepat untuk menasihati pemuda tersebut?", options: ["Kalian harus taat Pak RT karena beliau orang tua, biarpun aturannya salah.", "Ketaatan pada Pak RT wajib untuk menjaga ketertiban umum. Cinta sesama manusia berarti tidak mengganggu hak istirahat orang lain.", "Tinggalkan saja desa ini dan pindah ke tempat sepi agar bisa bebas.", "Tantang Pak RT untuk berdebat dalil agama tentang musik."], answer: 1 },
+            { level: 3, poin: 12, stimulus: "Seorang petani jagung yang lahan panennya terendam banjir bandang merasa sangat sedih. Ia hampir putus asa dan berhenti shalat. Namun ia ingat bahwa musibah bisa jadi teguran. Ia bertaubat, kembali rajin shalat, dan ikhlas menerima takdir, lalu mulai menanam kembali dari awal secara konsisten.", question: "Hubungan hierarkis antara keempat akhlak (Taubat, Taat, Ikhlas, Istiqamah) yang ditunjukkan petani tersebut adalah...", options: ["Ikhlas dulu, baru taubat, lalu taat dan istiqamah.", "Taubat mengembalikan ketaatan, ikhlas menerima takdir memurnikan niat, lalu istiqamah mempertahankan perjuangan.", "Istiqamah menanam jagung lebih penting dari taubat dan taat.", "Keempatnya tidak saling berhubungan dalam kasus musibah alam."], answer: 1 },
+            { level: 3, poin: 12, stimulus: "Dalam surat Al-Bayyinah ayat 5, Allah mengaitkan perintah ikhlas (mukhlisina lahud-diin) dengan mendirikan shalat dan menunaikan zakat. Di sisi lain, pelestarian lingkungan adalah bagian dari sedekah alam.", question: "Bagaimana penerapan ayat tersebut dalam merancang 'Proyek Reflektif' yang bernilai ekologis di madrasah pesisir?", options: ["Mengumpulkan sumbangan uang tunai sebanyak-banyaknya untuk pamer.", "Membuat proyek daur ulang sampah plastik pesisir yang dijalankan terus menerus tanpa digaji, semata-mata mencari ridha Allah pelindung alam.", "Melakukan pembersihan pantai hanya saat ada lomba Adiwiyata agar sekolah menang.", "Mewajibkan siswa shalat dhuha sebelum membuang sampah."], answer: 1 }
+        ];
+
+        // --- 3. CORE LOGIC & NAVIGATION ---
+        function showAlert(title, message) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-message').innerText = message;
+            document.getElementById('custom-alert').classList.remove('hidden');
+            document.getElementById('custom-alert').classList.add('flex');
+        }
+        function closeAlert() {
+            document.getElementById('custom-alert').classList.add('hidden');
+            document.getElementById('custom-alert').classList.remove('flex');
+        }
+
+        function navigate(from, to) {
+            document.getElementById(`screen-${from}`).classList.add('hidden');
+            document.getElementById(`screen-${to}`).classList.remove('hidden');
+            
+            if(to === 'menu') updateMenuUI();
+        }
+
+        function submitForm() {
+            const nama = document.getElementById('input-nama').value.trim();
+            const kelas = document.getElementById('input-kelas').value;
+            
+            if(!nama || !kelas) {
+                showAlert('Peringatan', 'Mohon lengkapi Nama dan Kelas Anda sebelum melanjutkan perjalanan.');
+                return;
+            }
+            
+            state.siswa = { nama, kelas };
+            document.getElementById('display-inisial').innerText = nama.charAt(0).toUpperCase();
+            document.getElementById('display-nama-menu').innerText = nama;
+            document.getElementById('display-kelas-menu').innerText = kelas;
+            document.getElementById('display-nama-guide').innerText = nama;
+            
+            navigate('form', 'guide');
+        }
+
+        function confirmExit(target) {
+            navigate(document.querySelector('.screen:not(.hidden)').id.replace('screen-', ''), target);
+        }
+
+        // --- GUIDE LOGIC ---
+        function changeGuideSlide(dir) {
+            const total = 3;
+            const prev = state.current.guide;
+            state.current.guide += dir;
+            
+            if (state.current.guide < 0) state.current.guide = 0;
+            if (state.current.guide >= total) {
+                state.current.guide = total - 1;
+                navigate('guide', 'menu');
+                return;
+            }
+            
+            const curr = state.current.guide;
+            
+            for(let i=0; i<total; i++) {
+                const el = document.getElementById(`guide-slide-${i}`);
+                if (i < curr) el.className = "absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 -translate-x-full opacity-0";
+                else if (i === curr) el.className = "absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 translate-x-0 opacity-100 z-10";
+                else el.className = "absolute inset-0 p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 translate-x-full opacity-0";
+            }
+            
+            const dots = document.getElementById('guide-dots').children;
+            for(let i=0; i<total; i++) {
+                if (i === curr) dots[i].className = "w-2.5 h-2.5 rounded-full bg-emerald-600 transition-all w-6";
+                else dots[i].className = "w-2.5 h-2.5 rounded-full bg-gray-300 transition-all w-2.5";
+            }
+            
+            document.getElementById('btn-guide-prev').classList.toggle('hidden', curr === 0);
+            document.getElementById('btn-guide-next').innerText = curr === total - 1 ? 'Masuk Menu' : 'Lanjut';
+        }
+
+        // --- MENU LOGIC ---
+        function updateMenuUI() {
+            let progress = 10; 
+            if(state.progress.belajarComplete) {
+                progress = 50;
+                let c = document.getElementById('card-bermain');
+                c.classList.remove('opacity-75', 'grayscale');
+                document.getElementById('icon-bermain').classList.replace('text-gray-400', 'text-indigo-500');
+                document.getElementById('status-bermain').innerHTML = '<i class="fas fa-unlock mr-1"></i> Terbuka';
+                document.getElementById('status-bermain').className = 'inline-block px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full border border-indigo-200';
+            }
+            if(state.progress.bermainComplete) {
+                progress = 80;
+                let c = document.getElementById('card-berlatih');
+                c.classList.remove('opacity-75', 'grayscale');
+                document.getElementById('icon-berlatih').classList.replace('text-gray-400', 'text-rose-500');
+                document.getElementById('status-berlatih').innerHTML = '<i class="fas fa-unlock mr-1"></i> Terbuka';
+                document.getElementById('status-berlatih').className = 'inline-block px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-full border border-rose-200';
+            }
+            if(state.progress.berlatihComplete) { progress = 100; }
+            document.getElementById('progress-bar-main').style.width = `${progress}%`;
+        }
+
+        function openMenu(type) {
+            if(type === 'bermain' && !state.progress.belajarComplete) {
+                showAlert('Terkunci', 'Selesaikan misi BELAJAR terlebih dahulu (10 slide materi) untuk membuka arena BERMAIN.');
+                return;
+            }
+            if(type === 'berlatih' && !state.progress.bermainComplete) {
+                showAlert('Terkunci', 'Selesaikan misi BERMAIN (10 tantangan) terlebih dahulu untuk membuka sesi BERLATIH.');
+                return;
+            }
+            
+            if(type === 'belajar') { state.current.belajar = 0; renderBelajar(); }
+            else if(type === 'bermain') { state.current.bermain = 0; state.skor.bermain = 0; renderBermain(); }
+            else if(type === 'berlatih') { state.current.berlatih = 0; state.skor.berlatih = 0; state.jawabanBerlatih=[]; renderBerlatih(); }
+            
+            navigate('menu', type);
+        }
+
+        // --- BELAJAR LOGIC ---
+        function renderBelajar() {
+            const index = state.current.belajar;
+            const data = dataBelajar[index];
+            document.getElementById('belajar-current').innerText = index + 1;
+            document.getElementById('belajar-progress-bar').style.width = `${((index + 1) / dataBelajar.length) * 100}%`;
+            
+            let html = `
+                <div class="p-6 md:p-8 animate-fade-in">
+                    <div class="flex items-center gap-4 mb-6 border-b pb-4">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl shadow-inner">
+                            <i class="fas ${data.icon}"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">${data.title}</h2>
+                    </div>
+                    
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg text-sm text-blue-800">
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Konteks Gorontalo:</strong> ${data.konteks}
+                    </div>
+
+                    <div class="text-gray-700 leading-relaxed mb-8 text-lg">
+                        ${data.materi}
+                    </div>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-bl-full opacity-50 -z-0"></div>
+                        <p class="text-xs font-bold text-emerald-600 uppercase mb-2">Dalil Al-Qur'an</p>
+                        <p class="arabic-text text-gray-900 mb-4 z-10 relative">${data.quran.arab}</p>
+                        <p class="text-sm font-semibold text-gray-600 z-10 relative mb-1">${data.quran.surah}</p>
+                        <p class="text-sm text-gray-700 italic z-10 relative">"${data.quran.terjemah}"</p>
+                    </div>
+
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 mb-8 flex gap-4 items-start">
+                        <i class="fas fa-heart text-red-500 text-xl mt-1"></i>
+                        <div>
+                            <p class="text-xs font-bold text-emerald-800 uppercase mb-1">Nilai KBC Kemenag</p>
+                            <p class="text-sm text-gray-700">${data.kbc}</p>
+                        </div>
+                    </div>
+
+                    <div class="border-t-2 border-dashed border-gray-200 pt-8 mt-4" id="mini-quiz-area">
+                        <h3 class="font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-unlock-alt text-gold-500 mr-2"></i> Kuis Pemahaman Cepat</h3>
+                        <p class="text-sm text-gray-600 mb-4">${data.quiz.pertanyaan}</p>
+                        <div class="space-y-3">
+                            ${data.quiz.opsi.map((opt, i) => `
+                                <button onclick="checkMiniQuiz(${i}, ${opt.benar})" class="w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition bg-white" id="opt-belajar-${i}">
+                                    ${opt.teks}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="belajar-feedback" class="mt-4 hidden p-4 rounded-xl text-center font-bold"></div>
+                        <button id="btn-next-belajar" onclick="nextBelajar()" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-lg hidden">
+                            ${index === dataBelajar.length - 1 ? 'Selesaikan Belajar <i class="fas fa-check ml-1"></i>' : 'Lanjut Materi Berikutnya <i class="fas fa-arrow-right ml-1"></i>'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('belajar-content-container').innerHTML = html;
+            document.getElementById('belajar-content-container').scrollTo(0,0);
+        }
+
+        function checkMiniQuiz(selectedIdx, isCorrect) {
+            const opts = document.querySelectorAll('[id^="opt-belajar-"]');
+            opts.forEach(el => { el.disabled = true; el.classList.add('opacity-50', 'cursor-not-allowed'); });
+            
+            const selectedBtn = document.getElementById(`opt-belajar-${selectedIdx}`);
+            const fb = document.getElementById('belajar-feedback');
+            fb.classList.remove('hidden');
+
+            if(isCorrect) {
+                selectedBtn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-100 text-emerald-800 font-semibold";
+                fb.className = "mt-4 p-4 rounded-xl text-center font-bold bg-emerald-100 text-emerald-700";
+                fb.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Tepat sekali! Silakan lanjut.';
+                document.getElementById('btn-next-belajar').classList.remove('hidden');
+            } else {
+                selectedBtn.className = "w-full text-left p-4 rounded-xl border-2 border-red-500 bg-red-50 text-red-700";
+                fb.className = "mt-4 p-4 rounded-xl text-center font-bold bg-red-100 text-red-700";
+                fb.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Kurang tepat. Coba pahami lagi materinya.';
+                
+                setTimeout(() => {
+                    opts.forEach(el => { el.disabled = false; el.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-red-50', 'border-red-500', 'text-red-700'); el.classList.add('border-gray-200', 'hover:border-emerald-500', 'hover:bg-emerald-50', 'bg-white'); });
+                    fb.classList.add('hidden');
+                }, 2000);
+            }
+        }
+
+        function nextBelajar() {
+            if(state.current.belajar < dataBelajar.length - 1) {
+                state.current.belajar++;
+                renderBelajar();
+            } else {
+                state.progress.belajarComplete = true;
+                showAlert('Alhamdulillah!', 'Kamu telah menyelesaikan semua materi. Menu BERMAIN sekarang TERBUKA!');
+                navigate('belajar', 'menu');
+            }
+        }
+
+        // --- BERMAIN LOGIC ---
+        let bermaintempState = null;
+
+        function renderBermain() {
+            const index = state.current.bermain;
+            const data = dataBermain[index];
+            document.getElementById('bermain-current').innerText = index + 1;
+            document.getElementById('bermain-score-display').innerText = state.skor.bermain;
+            
+            document.getElementById('bermain-stimulus').innerHTML = `<strong>Konteks:</strong> ${data.stimulus}`;
+            document.getElementById('btn-cek-bermain').classList.remove('hidden');
+            document.getElementById('btn-cek-bermain').innerHTML = `Cek Jawaban <i class="fas fa-check-circle ml-1"></i>`;
+            document.getElementById('btn-cek-bermain').setAttribute('onclick', 'checkBermainAnswer()');
+            document.getElementById('btn-cek-bermain').className = "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md w-full md:w-auto";
+            
+            const container = document.getElementById('bermain-interaction');
+            let html = `<p class="font-bold text-gray-800 mb-4">${data.question}</p>`;
+            bermaintempState = { type: data.type, selection: [] };
+
+            if(data.type === 'mc') {
+                html += `<div class="space-y-3">`;
+                data.options.forEach((opt, i) => {
+                    html += `<div onclick="selectBermainMC(${i})" id="b-opt-${i}" class="interactive-item p-4 rounded-xl bg-gray-50 text-gray-700 border border-gray-200">${opt}</div>`;
+                });
+                html += `</div>`;
+            } 
+            else if(data.type === 'mc_complex') {
+                html += `<div class="space-y-3">`;
+                data.options.forEach((opt, i) => {
+                    html += `<div onclick="toggleBermainMCC(${i})" id="b-optc-${i}" class="interactive-item p-4 rounded-xl bg-gray-50 text-gray-700 border border-gray-200 flex items-start gap-3">
+                                <div class="w-5 h-5 mt-0.5 rounded border border-gray-400 flex items-center justify-center bg-white" id="box-${i}"></div>
+                                <span>${opt}</span>
+                             </div>`;
+                });
+                html += `</div>`;
+            }
+            else if(data.type === 'match') {
+                bermaintempState.pairs = {};
+                let lefts = [...data.pairs].sort(()=>Math.random()-0.5);
+                let rights = [...data.pairs].sort(()=>Math.random()-0.5);
+                
+                html += `<div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-3" id="match-left">
+                                ${lefts.map(l => `<div onclick="selectMatch('left', '${l.id}')" id="ml-${l.id}" class="interactive-item p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-sm text-center">${l.left}</div>`).join('')}
+                            </div>
+                            <div class="space-y-3" id="match-right">
+                                ${rights.map(r => `<div onclick="selectMatch('right', '${r.id}')" id="mr-${r.id}" class="interactive-item p-3 rounded-xl bg-teal-50 border border-teal-200 text-sm text-center">${r.right}</div>`).join('')}
+                            </div>
+                         </div>`;
+            }
+            else if(data.type === 'sort') {
+                bermaintempState.sorted = [];
+                let items = [...data.items].sort(()=>Math.random()-0.5);
+                html += `<p class="text-xs text-indigo-600 mb-2 italic">Tap item berurutan dari langkah 1 sampai terakhir.</p>
+                         <div class="space-y-2" id="sort-container">
+                            ${items.map(it => `<div onclick="selectSort('${it.id}')" id="sort-${it.id}" class="interactive-item p-3 rounded-xl bg-white shadow-sm border border-gray-200 text-sm flex gap-3 items-center"><span class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600" id="badge-${it.id}">-</span> ${it.text}</div>`).join('')}
+                         </div>`;
+            }
+            else if(data.type === 'fill_blank') {
+                let text = data.template;
+                data.answers.forEach((_, i) => {
+                    text = text.replace(`{blank${i+1}}`, `<span id="blank-${i}" onclick="selectBlank(${i})" class="inline-block min-w-[80px] px-2 py-1 mx-1 border-b-2 border-dashed border-indigo-400 text-indigo-700 bg-indigo-50 text-center cursor-pointer min-h-[30px]">___</span>`);
+                });
+                bermaintempState.blanks = Array(data.answers.length).fill(null);
+                
+                html += `<div class="text-lg leading-loose mb-6">${text}</div>
+                         <div class="flex flex-wrap gap-2 justify-center border-t pt-4">
+                            ${data.words.map((w,i) => `<span onclick="selectWord('${w}', ${i})" id="word-${i}" class="interactive-item px-4 py-2 rounded-full bg-gray-100 border border-gray-300 text-sm font-semibold">${w}</span>`).join('')}
+                         </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function selectBermainMC(idx) {
+            document.querySelectorAll('[id^="b-opt-"]').forEach(el => el.classList.remove('selected', 'border-indigo-500', 'bg-indigo-50'));
+            document.getElementById(`b-opt-${idx}`).classList.add('selected', 'border-indigo-500', 'bg-indigo-50');
+            bermaintempState.selection = [idx];
+        }
+
+        function toggleBermainMCC(idx) {
+            let el = document.getElementById(`b-optc-${idx}`);
+            let box = document.getElementById(`box-${idx}`);
+            let sel = bermaintempState.selection;
+            
+            if(sel.includes(idx)) {
+                sel = sel.filter(i => i !== idx);
+                el.classList.remove('border-indigo-500', 'bg-indigo-50');
+                box.innerHTML = ''; box.classList.remove('bg-indigo-500', 'border-indigo-500');
+            } else {
+                sel.push(idx);
+                el.classList.add('border-indigo-500', 'bg-indigo-50');
+                box.innerHTML = '<i class="fas fa-check text-white text-xs"></i>'; box.classList.add('bg-indigo-500', 'border-indigo-500');
+            }
+            bermaintempState.selection = sel;
+        }
+
+        let activeMatchLeft = null, activeMatchRight = null, colorIdx = 0;
+        const colors = ['bg-red-200','bg-blue-200','bg-green-200','bg-yellow-200'];
+        
+        function selectMatch(side, id) {
+            if(side === 'left') {
+                if(activeMatchLeft) document.getElementById(`ml-${activeMatchLeft}`).classList.remove('border-indigo-500', 'border-2', 'scale-105');
+                activeMatchLeft = id;
+                document.getElementById(`ml-${id}`).classList.add('border-indigo-500', 'border-2', 'scale-105');
+            } else {
+                if(activeMatchRight) document.getElementById(`mr-${activeMatchRight}`).classList.remove('border-indigo-500', 'border-2', 'scale-105');
+                activeMatchRight = id;
+                document.getElementById(`mr-${id}`).classList.add('border-indigo-500', 'border-2', 'scale-105');
+            }
+
+            if(activeMatchLeft && activeMatchRight) {
+                let c = colors[colorIdx % colors.length];
+                let lEl = document.getElementById(`ml-${activeMatchLeft}`);
+                let rEl = document.getElementById(`mr-${activeMatchRight}`);
+                
+                colors.forEach(col => { lEl.classList.remove(col); rEl.classList.remove(col); });
+                
+                lEl.classList.add(c); lEl.classList.remove('border-indigo-500', 'border-2', 'scale-105');
+                rEl.classList.add(c); rEl.classList.remove('border-indigo-500', 'border-2', 'scale-105');
+                
+                bermaintempState.pairs[activeMatchLeft] = activeMatchRight;
+                activeMatchLeft = null; activeMatchRight = null;
+                colorIdx++;
+            }
+        }
+
+        function selectSort(id) {
+            let idx = bermaintempState.sorted.indexOf(id);
+            if(idx > -1) {
+                bermaintempState.sorted.splice(idx, 1);
+                document.getElementById(`badge-${id}`).innerText = '-';
+                document.getElementById(`badge-${id}`).className = "w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600";
+            } else {
+                bermaintempState.sorted.push(id);
+            }
+            
+            bermaintempState.sorted.forEach((sid, i) => {
+                let badge = document.getElementById(`badge-${sid}`);
+                badge.innerText = i + 1;
+                badge.className = "w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs font-bold";
+            });
+        }
+
+        let activeWord = null, activeWordIdx = null;
+        function selectWord(word, idx) {
+            document.querySelectorAll('[id^="word-"]').forEach(el => el.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-200'));
+            let el = document.getElementById(`word-${idx}`);
+            if(el.classList.contains('opacity-50')) return; 
+            
+            el.classList.add('ring-2', 'ring-indigo-500', 'bg-indigo-200');
+            activeWord = word;
+            activeWordIdx = idx;
+        }
+        
+        function selectBlank(blankIdx) {
+            if(activeWord) {
+                let blankEl = document.getElementById(`blank-${blankIdx}`);
+                blankEl.innerText = activeWord;
+                blankEl.classList.remove('border-dashed', 'text-indigo-700', 'bg-indigo-50');
+                blankEl.classList.add('border-solid', 'bg-indigo-100', 'font-bold');
+                
+                bermaintempState.blanks[blankIdx] = activeWord;
+                document.getElementById(`word-${activeWordIdx}`).classList.add('opacity-50'); 
+                
+                activeWord = null;
+                document.querySelectorAll('[id^="word-"]').forEach(el => el.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-200'));
+            } else {
+                let currentWord = bermaintempState.blanks[blankIdx];
+                if(currentWord) {
+                    bermaintempState.blanks[blankIdx] = null;
+                    document.getElementById(`blank-${blankIdx}`).innerText = '___';
+                    document.getElementById(`blank-${blankIdx}`).className = "inline-block min-w-[80px] px-2 py-1 mx-1 border-b-2 border-dashed border-indigo-400 text-indigo-700 bg-indigo-50 text-center cursor-pointer min-h-[30px]";
+                    
+                    document.querySelectorAll('[id^="word-"]').forEach(el => {
+                        if(el.innerText === currentWord) el.classList.remove('opacity-50');
+                    });
+                }
+            }
+        }
+
+        function checkBermainAnswer() {
+            const data = dataBermain[state.current.bermain];
+            let isCorrect = false;
+
+            if(data.type === 'mc') {
+                isCorrect = bermaintempState.selection[0] === data.answer;
+            } else if(data.type === 'mc_complex') {
+                let ans = data.answer.sort().toString();
+                let sel = bermaintempState.selection.sort().toString();
+                isCorrect = ans === sel && sel !== "";
+            } else if(data.type === 'match') {
+                let correctCount = 0;
+                data.pairs.forEach(p => { if(bermaintempState.pairs[p.id] === p.id) correctCount++; });
+                isCorrect = correctCount === data.pairs.length;
+            } else if(data.type === 'sort') {
+                let correctSeq = data.items.sort((a,b)=>a.order-b.order).map(i=>i.id).toString();
+                let userSeq = bermaintempState.sorted.toString();
+                isCorrect = correctSeq === userSeq && userSeq !== "";
+            } else if(data.type === 'fill_blank') {
+                let ans = data.answers.toString();
+                let sel = bermaintempState.blanks.toString();
+                isCorrect = ans === sel;
+            }
+
+            const btn = document.getElementById('btn-cek-bermain');
+            if(isCorrect) {
+                state.skor.bermain += 10; 
+                document.getElementById('bermain-score-display').innerText = state.skor.bermain;
+                btn.className = "bg-green-500 text-white font-bold py-3 px-8 rounded-xl w-full md:w-auto transition";
+                btn.innerHTML = `Benar! Lanjut <i class="fas fa-arrow-right ml-1"></i>`;
+                btn.setAttribute('onclick', 'nextBermain()');
+            } else {
+                btn.className = "bg-red-500 text-white font-bold py-3 px-8 rounded-xl w-full md:w-auto transition animate-bounce";
+                btn.innerHTML = `Kurang Tepat, Coba Lagi <i class="fas fa-redo ml-1"></i>`;
+                setTimeout(() => {
+                    btn.className = "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md w-full md:w-auto";
+                    btn.innerHTML = `Cek Jawaban <i class="fas fa-check-circle ml-1"></i>`;
+                }, 2000);
+            }
+        }
+
+        function nextBermain() {
+            if(state.current.bermain < dataBermain.length - 1) {
+                state.current.bermain++;
+                renderBermain();
+            } else {
+                state.progress.bermainComplete = true;
+                showAlert('Luar Biasa!', `Kamu menyelesaikan semua tantangan Bermain dengan Skor ${state.skor.bermain}! Sesi BERLATIH (Asesmen) telah terbuka.`);
+                navigate('bermain', 'menu');
+            }
+        }
+
+        // --- BERLATIH LOGIC ---
+        function renderBerlatih() {
+            const index = state.current.berlatih;
+            const data = dataBerlatih[index];
+            
+            document.getElementById('berlatih-current').innerText = index + 1;
+            document.getElementById('berlatih-progress-bar').style.width = `${((index) / dataBerlatih.length) * 100}%`;
+            
+            let lvlText = data.level === 1 ? 'Dasar' : (data.level === 2 ? 'Sedang/Aplikasi' : 'Tinggi/HOTS');
+            let badgeClass = data.level === 1 ? 'bg-green-100 text-green-800 border-green-200' : (data.level === 2 ? 'bg-yellow-100 text-yellow-800 border-yellow-200' : 'bg-red-100 text-red-800 border-red-200');
+            
+            document.getElementById('berlatih-badge-level').innerText = `Level ${data.level} - ${lvlText}`;
+            document.getElementById('berlatih-badge-level').className = `px-3 py-1 text-xs font-bold rounded-full border ${badgeClass}`;
+            document.getElementById('berlatih-badge-poin').innerText = `${data.poin} Poin`;
+
+            document.getElementById('berlatih-stimulus').innerHTML = data.stimulus;
+            document.getElementById('berlatih-question').innerText = data.question;
+
+            let optsHtml = '';
+            data.options.forEach((opt, i) => {
+                optsHtml += `<button onclick="selectBerlatih(${i})" id="l-opt-${i}" class="w-full text-left p-4 rounded-xl border border-gray-300 hover:border-rose-500 hover:bg-rose-50 bg-white transition shadow-sm">${String.fromCharCode(65+i)}. ${opt}</button>`;
+            });
+            document.getElementById('berlatih-options').innerHTML = optsHtml;
+            document.getElementById('btn-next-berlatih').classList.add('hidden');
+        }
+
+        let selectedBerlatih = null;
+        function selectBerlatih(idx) {
+            document.querySelectorAll('[id^="l-opt-"]').forEach(el => el.className = "w-full text-left p-4 rounded-xl border border-gray-300 hover:border-rose-500 hover:bg-rose-50 bg-white transition shadow-sm");
+            document.getElementById(`l-opt-${idx}`).className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 font-semibold shadow-sm text-rose-900";
+            selectedBerlatih = idx;
+            document.getElementById('btn-next-berlatih').classList.remove('hidden');
+        }
+
+        function nextBerlatih() {
+            if(selectedBerlatih === null) return;
+
+            const data = dataBerlatih[state.current.berlatih];
+            const isBenar = selectedBerlatih === data.answer;
+            
+            if(isBenar) state.skor.berlatih += data.poin;
+            
+            state.jawabanBerlatih.push({ no: state.current.berlatih + 1, level: data.level, isBenar });
+            selectedBerlatih = null;
+
+            if(state.current.berlatih < dataBerlatih.length - 1) {
+                state.current.berlatih++;
+                renderBerlatih();
+            } else {
+                document.getElementById('berlatih-progress-bar').style.width = `100%`;
+                state.progress.berlatihComplete = true;
+                
+                generateReportData();
+                sendDataToGAS(); // MENGIRIM DATA KE GOOGLE SHEETS
+                navigate('berlatih', 'report');
+            }
+        }
+
+        // --- PENGIRIMAN DATA KE GOOGLE SHEETS ---
+        function sendDataToGAS() {
+            if (GAS_URL === "URL_GAS_ANDA_DISINI") {
+                console.warn("Peringatan: GAS_URL belum disetting. Data tidak dikirim ke Google Sheets.");
+                return;
+            }
+
+            const payload = {
+                action: 'submitHasil',
+                siswa: state.siswa,
+                skorBermain: state.skor.bermain,
+                skorBerlatih: state.skor.berlatih,
+                jawabanBerlatih: state.jawabanBerlatih,
+                // Kirim struktur soal untuk dicatat di Sheet "Data Soal" jika belum ada
+                dataBermain: dataBermain.map(d => ({ q: d.question || d.stimulus, type: 'Bermain' })),
+                dataBerlatih: dataBerlatih.map(d => ({ q: d.question, options: d.options || [], type: 'Berlatih' }))
+            };
+
+            // Menggunakan fetch dengan mode 'no-cors' agar tidak terblokir CORS policy browser saat kirim ke Script Google
+            fetch(GAS_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                console.log("Rekam jejak data berhasil dikirimkan ke server guru.");
+            }).catch(e => {
+                console.error("Gagal mengirim data ke server", e);
+            });
+        }
+
+        // --- LAPORAN PDF LOGIC ---
+        function generateReportData() {
+            document.getElementById('rep-nama').innerText = state.siswa.nama;
+            document.getElementById('rep-kelas').innerText = state.siswa.kelas;
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const tgl = today.toLocaleDateString('id-ID', options);
+            document.getElementById('rep-tanggal').innerText = tgl;
+            document.getElementById('rep-ttd-tgl').innerText = tgl;
+
+            document.getElementById('rep-skor-bermain').innerText = state.skor.bermain;
+
+            let nilaiAkhir = state.skor.berlatih;
+            document.getElementById('rep-nilai-akhir').innerText = nilaiAkhir;
+            
+            let predikat = "", pColor = "";
+            if(nilaiAkhir >= 90) { predikat = "Sangat Baik (A)"; pColor = "bg-green-100 text-green-800"; }
+            else if(nilaiAkhir >= 75) { predikat = "Baik (B)"; pColor = "bg-blue-100 text-blue-800"; }
+            else if(nilaiAkhir >= 60) { predikat = "Cukup (C)"; pColor = "bg-yellow-100 text-yellow-800"; }
+            else { predikat = "Perlu Bimbingan (D)"; pColor = "bg-red-100 text-red-800"; }
+            
+            document.getElementById('rep-predikat').innerText = predikat;
+            document.getElementById('rep-predikat').className = `inline-block px-3 py-1 rounded-full text-sm font-bold mt-2 ${pColor}`;
+
+            let tbody = "";
+            state.jawabanBerlatih.forEach(item => {
+                let lvl = item.level === 1 ? 'Dasar' : (item.level === 2 ? 'Aplikasi' : 'HOTS');
+                let st = item.isBenar ? '<span class="text-green-600 font-bold"><i class="fas fa-check"></i> Benar</span>' : '<span class="text-red-600 font-bold"><i class="fas fa-times"></i> Salah</span>';
+                tbody += `<tr><td class="p-2 border border-gray-200">Level ${item.level} (${lvl})</td><td class="p-2 border border-gray-200 text-center">${item.no}</td><td class="p-2 border border-gray-200 text-center">${st}</td></tr>`;
+            });
+            document.getElementById('rep-table-body').innerHTML = tbody;
+
+            let rek = "";
+            if(nilaiAkhir >= 75) rek = `Ananda ${state.siswa.nama} telah menunjukkan pemahaman yang baik tentang konsep Taat, Taubat, Istiqamah, dan Ikhlas, serta mampu mengaitkannya dengan kepedulian terhadap lingkungan (Teluk Tomini & Danau Limboto). Pertahankan dan aplikasikan dalam kehidupan sehari-hari sebagai bukti cinta kepada Sang Pencipta.`;
+            else rek = `Ananda ${state.siswa.nama}, teruslah semangat belajar. Pahami kembali materi konsep dasar dan cobalah untuk merenungkan makna akhlak terpuji dalam tindakan nyata di madrasah dan lingkungan. Jadikan alam sebagai guru terbaik.`;
+            document.getElementById('rep-rekomendasi').innerText = rek;
+        }
+
+        function generatePDF() {
+            const element = document.getElementById('report-content');
+            const opt = {
+                margin:       10,
+                filename:     `Laporan_MPI_${state.siswa.nama.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            if(window.html2pdf) {
+                html2pdf().set(opt).from(element).save();
+            } else {
+                window.print();
+            }
+        }
+
+        // --- INIT ---
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('screen-splash').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('screen-splash').classList.add('hidden');
+                    document.getElementById('screen-cover').classList.remove('hidden');
+                }, 500);
+            }, 2000); 
+        };
+
+    </script>
+</body>
+</html>
